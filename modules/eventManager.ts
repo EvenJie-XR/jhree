@@ -4,7 +4,8 @@
  */
 export class EventManager {
     eventList: EventList = {
-        tick: [] as unknown as (() => void)[]
+        tick: [] as unknown as (() => void)[],
+        resize: [] as unknown as (() => void)[]
     }
     constructor() {
         
@@ -16,14 +17,22 @@ export class EventManager {
             this.eventList[eventType].splice(this.eventList[eventType].indexOf(callback), 1);
         }
     }
+    triggerEvent(name: String) {
+        // @ts-ignore
+        this.eventList[name].forEach((callback: () => void) => {
+            callback();
+        })
+    }
 }
 
-type removeEventListener = () => void;
+export type removeEventListener = () => void;
 
 type EventList = {
     tick: (() => void)[]
+    resize: (() => void)[]
 }
 
 export enum EventType {
-    TICK = "tick"
+    TICK = "tick",
+    RESIZE = "resize"
 }

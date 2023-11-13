@@ -5,12 +5,15 @@ export declare class EventManager {
     eventList: EventList;
     constructor();
     addEventListener(callback: () => void, eventType: EventType): removeEventListener;
+    triggerEvent(name: String): void;
 }
-declare type removeEventListener = () => void;
+export declare type removeEventListener = () => void;
 declare type EventList = {
     tick: (() => void)[];
+    resize: (() => void)[];
 };
 export declare enum EventType {
-    TICK = "tick"
+    TICK = "tick",
+    RESIZE = "resize"
 }
 export {};

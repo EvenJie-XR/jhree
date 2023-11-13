@@ -24,15 +24,13 @@ onMounted(() => {
 	const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 	directionalLight.position.set(0, 48, 0);
 	jhree.scene.add( directionalLight );
-	// 设置status
-	const stats: Stats = new (Stats as any)();
-	jhree.threeContainer.appendChild( stats.dom );
-	jhree.eventManager.addEventListener(() => {
-		stats.update();
-	}, EventType.TICK)
 	// -------------------------------------------以上是场景初始内容-----------------------------------------
 	
-
+	const box = new THREE.Mesh(new THREE.BoxGeometry(10, 10, 10), new THREE.MeshBasicMaterial({
+		color: '#f00'
+	}));
+	jhree.scene.add(box);
+	jhree.controlsManager.switchTrackballControls();
 
 })
 </script>
