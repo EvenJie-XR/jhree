@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@even_jie/jhree</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<ul class="results-priority" style="display:none">
+					</ul>
+					<a href="index.html" class="title">@even_jie/jhree</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+			</ul>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-3 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_eventmanager_.html">eventManager</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_jhree_.html">jhree</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-7 offset-3 col-content">
+			<h1>@even_jie/jhree</h1>
+			<div class="tsd-panel tsd-typography">
+				<a href="#jhree" id="jhree" style="color: inherit; text-decoration: none;">
+					<h1>Jhree</h1>
+				</a>
+				<p>概述：利用原生cesium封装一些常用功能,帮助快速开发cesium项目</p>
+				<p>中文文档：<a href="https://gunomniscience.github.io/jesium/">https://gunomniscience.github.io/jesium/</a></p>
+				<a href="#vue3中使用jesium" id="vue3中使用jesium" style="color: inherit; text-decoration: none;">
+					<h2>Vue3中使用jesium</h2>
+				</a>
+				<ol>
+					<li><p>安装cesium</p>
+						<pre><code><span class="hljs-built_in">npm</span> i cesium</code></pre>
+					</li>
+					<li><p>拷贝node_modules/cesium/Build/Cesium/Assets、node_modules/cesium/Build/Cesium/ThirdParty、node_modules/cesium/Build/Cesium/Widgets、node_modules/cesium/Build/Cesium/Workers目录到项目的public目录下</p>
+					</li>
+					<li><p>在main.ts中添加如下代码</p>
+						<pre><code class="language-ts"> <span class="hljs-keyword">import</span> { Ion } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;cesium&quot;</span>
+ <span class="hljs-keyword">import</span> <span class="hljs-string">&quot;cesium/Build/Cesium/Widgets/widgets.css&quot;</span>;
+
+ <span class="hljs-comment">// 配置cesium初始化</span>
+ <span class="hljs-built_in">window</span>.CESIUM_BASE_URL = <span class="hljs-string">&#x27;/&#x27;</span>; <span class="hljs-comment">// / = public目录，如果是放在public/libs/cesium下面那么应该写：/libs/cesium/</span>
+ Ion.defaultAccessToken = <span class="hljs-string">&#x27;你的Cesium Ion的token&#x27;</span>;</code></pre>
+					</li>
+					<li><p>安装jesium</p>
+						<pre><code><span class="hljs-built_in">npm</span> i jesium</code></pre>
+					</li>
+					<li><p>配置已经完成接下来可以使用jesium来快速开发cesium了</p>
+						<pre><code class="language-vue">&lt;template&gt;
+   &lt;div class=&quot;cesium-container&quot; ref=&quot;cesiumContainer&quot;&gt;&lt;/div&gt;
+&lt;/template&gt;
+&lt;script lang=&quot;ts&quot; setup&gt;
+import {reactive,toRefs,defineComponent, ref, onMounted} from &quot;vue&quot;
+import { Jesium } from &quot;jesium&quot;
+
+const cesiumContainer = ref();
+onMounted(() =&gt; {
+   const jesium = new Jesium(cesiumContainer.value);
+})
+&lt;/script&gt;
+
+&lt;style lang=&quot;scss&quot; scoped&gt;
+.cesium-container {
+   width: 100%;
+   height: 100%;
+}
+&lt;/style&gt;
+</code></pre>
+					</li>
+				</ol>
+				<p><img src="./public/images/preview.png" alt=""></p>
+			</div>
+			<!--{&quot;options&quot;:&quot;typedoc.json&quot;,&quot;tsconfig&quot;:&quot;C:\\Code\\FrontEnd\\People\\jhree&quot;,&quot;inputFiles&quot;:[&quot;./modules&quot;],&quot;mode&quot;:1,&quot;includeDeclarations&quot;:false,&quot;entryPoint&quot;:&quot;&quot;,&quot;exclude&quot;:[&quot;modules/index.ts&quot;],&quot;externalPattern&quot;:[],&quot;excludeExternals&quot;:false,&quot;excludeNotExported&quot;:false,&quot;excludeNotDocumented&quot;:false,&quot;excludePrivate&quot;:false,&quot;excludeProtected&quot;:false,&quot;ignoreCompilerErrors&quot;:false,&quot;disableSources&quot;:false,&quot;includes&quot;:&quot;&quot;,&quot;media&quot;:&quot;&quot;,&quot;out&quot;:&quot;docs&quot;,&quot;json&quot;:&quot;&quot;,&quot;theme&quot;:&quot;./node_modules/typedoc-neo-theme/bin/default&quot;,&quot;name&quot;:&quot;&quot;,&quot;includeVersion&quot;:false,&quot;excludeTags&quot;:[],&quot;readme&quot;:&quot;&quot;,&quot;defaultCategory&quot;:&quot;Other&quot;,&quot;categoryOrder&quot;:[],&quot;categorizeByGroup&quot;:true,&quot;gitRevision&quot;:&quot;&quot;,&quot;gitRemote&quot;:&quot;origin&quot;,&quot;gaID&quot;:&quot;&quot;,&quot;gaSite&quot;:&quot;auto&quot;,&quot;hideGenerator&quot;:false,&quot;toc&quot;:[],&quot;disableOutputCheck&quot;:false,&quot;help&quot;:false,&quot;version&quot;:false,&quot;plugin&quot;:[],&quot;logger&quot;:&quot;console&quot;,&quot;listInvalidSymbolLinks&quot;:false}-->
+		</div>
+		<div class="col-2 col-menu secondary-menu">
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
