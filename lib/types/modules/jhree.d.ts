@@ -7,6 +7,7 @@ export declare class Jhree {
     scene: Scene;
     camera: PerspectiveCamera;
     renderer: WebGLRenderer;
+    animationId: number | undefined;
     eventManager: EventManager;
     helperManager: HelperManager;
     controlsManager: ControlsManager;
@@ -31,4 +32,6 @@ export declare class Jhree {
      * three场景适配container
      */
     private onContainerResize;
+    disposeNode(node: any, recursive?: boolean): void;
+    destory(): void;
 }

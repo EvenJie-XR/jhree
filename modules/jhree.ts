@@ -1,4 +1,4 @@
-import { PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three";
+import { Mesh, Object3D, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import { EventManager, EventType } from "./eventManager";
 import { HelperManager } from "./helperManager"
@@ -9,6 +9,7 @@ export class Jhree {
     scene: Scene = new Scene()
     camera: PerspectiveCamera;
     renderer: WebGLRenderer;
+    animationId: number | undefined
 
     eventManager: EventManager = new EventManager(); // 用于事件管理
     helperManager: HelperManager // 用于一些帮助对象
@@ -63,7 +64,7 @@ export class Jhree {
      * 渲染帧函数
      */
     private tick() {
-        requestAnimationFrame(this.tick.bind(this));
+        this.animationId = requestAnimationFrame(this.tick.bind(this));
         this.renderer.render(this.scene, this.camera);
         this.eventManager.triggerEvent(EventType.TICK);
     }
@@ -82,5 +83,34 @@ export class Jhree {
 
         this.renderer.setSize( this.threeContainer.clientWidth, this.threeContainer.clientHeight );
         this.eventManager.triggerEvent(EventType.RESIZE);
+    }
+    disposeNode( node: any, recursive = false ) {
+        if ( !node ) return;
+        if ( recursive && node.children)
+          for ( const child of node.children )
+            this.disposeNode( child , recursive );
+        node.geometry && node.geometry.dispose();
+        
+        if ( !node.material ) return;
+        const materials = node.material.length === undefined ? [ node.material ] : node.material
+        for ( const material of materials ) {
+            for ( const key in material ) {
+              const value = material[key];
+              if ( value && typeof value === 'object' && 'minFilter' in value )
+                value.dispose();
+            }
+            material && material.dispose();
+        }
+      }
+    destory() {
+        this.disposeNode(this.scene, true);
+        this.scene.clear();
+        this.renderer.dispose();
+        this.renderer.forceContextLoss();
+        this.controlsManager.removeControls();
+        this.animationId && cancelAnimationFrame(this.animationId);
+        const gl = this.renderer.domElement.getContext('webgl');
+        gl && gl.getExtension('WEBGL_lose_context')?.loseContext();
+        console.log(this.renderer.info);
     }
 }
